@@ -20,9 +20,10 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
 
-    public User(String email, String password, UserRole role) {
+    public User(String email, String password, String rgg, UserRole role) {
         this.email = email;
         this.password = password;
+        this.rgg = rgg;
         this.role = role;
     }
 
@@ -35,6 +36,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false, length = 100)
     private String password;
+
+    @Column(nullable = false, length = 6, unique = true)
+    private String rgg;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

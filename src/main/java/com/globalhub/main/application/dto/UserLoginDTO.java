@@ -1,4 +1,4 @@
 package com.globalhub.main.application.dto;
 
-public record UserLoginDTO(String email, String password) {
+public record UserLoginDTO(String username, String password) {
 }
