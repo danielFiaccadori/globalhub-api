@@ -33,4 +33,7 @@ public class Course {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private Boolean isActive;
+
 }
