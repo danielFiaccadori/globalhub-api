@@ -25,6 +25,7 @@ public class User implements UserDetails {
         this.password = password;
         this.rgg = rgg;
         this.role = role;
+        this.isActive = true;
     }
 
     @Id @Column(unique = true)
@@ -43,6 +44,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -77,7 +81,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return this.isActive;
     }
 
 }
