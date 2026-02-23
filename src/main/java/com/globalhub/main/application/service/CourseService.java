@@ -54,19 +54,18 @@ public class CourseService {
         Optional.ofNullable(updateCourseRequestData.newName()).ifPresent(toUpdateCourse::setName);
         Optional.ofNullable(updateCourseRequestData.newDescription()).ifPresent(toUpdateCourse::setDescription);
 
-        repository.save(toUpdateCourse);
         return mapper.toCourseDetailsDTO(toUpdateCourse);
     }
 
     @Transactional
     public void updateActivity(Long id, boolean activity) {
-        Course toDeactivateCourse = repository.findById(id)
+        Course toUpdateCourse = repository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
 
-        if (!activity && toDeactivateCourse.getTeams().isEmpty()) {
-            repository.delete(toDeactivateCourse);
+        if (!activity && toUpdateCourse.getTeams().isEmpty()) {
+            repository.delete(toUpdateCourse);
         } else {
-            toDeactivateCourse.setIsActive(activity);
+            toUpdateCourse.setIsActive(activity);
         }
     }
 

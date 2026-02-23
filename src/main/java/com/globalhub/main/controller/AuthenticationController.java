@@ -4,11 +4,13 @@ import com.globalhub.main.application.dto.AuthenticationResponseDTO;
 import com.globalhub.main.application.dto.user.UserLoginDTO;
 import com.globalhub.main.application.dto.user.UserRegisterDTO;
 import com.globalhub.main.application.response.BaseResponse;
+import com.globalhub.main.domain.events.user.UserRegisteredEvent;
 import com.globalhub.main.domain.user.User;
 import com.globalhub.main.infrastructure.security.TokenService;
 import com.globalhub.main.repository.UserRepository;
 import com.globalhub.main.utils.RggGenerator;
 import jakarta.validation.Valid;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,12 +30,14 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository repository;
     private final TokenService tokenService;
+    private final ApplicationEventPublisher eventPublisher;
     private final RggGenerator rggGenerator;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository repository, TokenService tokenService, RggGenerator rggGenerator) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository repository, TokenService tokenService, ApplicationEventPublisher eventPublisher, RggGenerator rggGenerator) {
         this.authenticationManager = authenticationManager;
         this.repository = repository;
         this.tokenService = tokenService;
+        this.eventPublisher = eventPublisher;
         this.rggGenerator = rggGenerator;
     }
 
@@ -59,6 +63,7 @@ public class AuthenticationController {
         User newUser = new User(data.email(), encryptedPassword, rgg, data.role());
         repository.save(newUser);
 
+        eventPublisher.publishEvent(new UserRegisteredEvent(newUser))   ;
         return ResponseEntity.status(HttpStatus.OK).body(BaseResponse.ok("User successfully registSered!"));
     }
 
