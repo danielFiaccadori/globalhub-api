@@ -5,8 +5,9 @@ import com.globalhub.main.domain.events.user.UserRegisteredEvent;
 import com.globalhub.main.domain.user.User;
 import com.globalhub.main.domain.user.UserRole;
 import com.globalhub.main.repository.StudentRepository;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Service
 public class StudentService {
@@ -17,7 +18,7 @@ public class StudentService {
         this.repository = repository;
     }
 
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void handleUserRegistration(UserRegisteredEvent event) {
         User savedUser = event.user();
 

@@ -18,6 +18,7 @@ public class Course {
         this.teams = List.of();
         this.name = name;
         this.description = description;
+        this.isActive = true;
     }
 
     @Id

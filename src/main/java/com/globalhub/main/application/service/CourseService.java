@@ -36,6 +36,7 @@ public class CourseService {
         return mapper.toCourseDetailsDTO(course);
     }
 
+    @Transactional
     public CourseDetailsDTO createCourse(CourseCreationRequestDTO creationRequestData) {
         Course course = new Course(
                 creationRequestData.name(),

@@ -29,14 +29,14 @@ public class DatabaseSeeder implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (userRepository.findByEmailOrRgg(adminEmail).isEmpty()) {
             System.out.println("⚠️ Super Admin not found. Creating root user...");
 
             String encryptedPassword = passwordEncoder.encode(adminPassword);
             String rgg = rggGenerator.generateNewRgg();
 
-            User superAdmin = new User(adminEmail, encryptedPassword, rgg, UserRole.ADMIN);
+            User superAdmin = new User(adminEmail, encryptedPassword, "Usuário padrão", "00000000000", rgg, UserRole.SUPER_ADMIN);
 
             userRepository.save(superAdmin);
             System.out.println("✅ Super Admin created successfully! E-mail: " + adminEmail);

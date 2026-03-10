@@ -4,6 +4,8 @@ import com.globalhub.main.domain.enrollment.Enrollment;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,10 +18,14 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 public class Team {
 
-    public Team(String name, Course course, List<Teacher> teachers) {
+    public Team(String name, Course course, List<Teacher> teachers, LocalTime time, DayOfWeek day, Integer room) {
         this.name = name;
         this.course = course;
         this.teachers = teachers;
+        this.time = time;
+        this.day = day;
+        this.room = room;
+        this.isActive = true;
     }
 
     @Id
@@ -43,6 +49,16 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
     private List<Teacher> teachers;
+
+    @Column(nullable = false)
+    private LocalTime time;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek day;
+
+    @Column(nullable = false)
+    private Integer room;
 
     @Column(nullable = false)
     private Boolean isActive;

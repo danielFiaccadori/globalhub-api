@@ -2,6 +2,7 @@ package com.globalhub.main.domain.user;
 
 public enum UserRole {
 
+    SUPER_ADMIN("Super admin"),
     ADMIN("Admin"),
     TEACHER("Teacher"),
     STUDENT("Student");
